@@ -1,0 +1,540 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e6edf7;
+  color: #202020;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px;
+}
+
+/* Hero Section */
+.hero {
+  background-color: white;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hero Box - Centered and Bordered */
+.hero-box {
+  text-align: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.hero-box:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Image */
+.hero-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.hero-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #007bff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.hero-image:hover {
+  transform: rotate(5deg) scale(1.1);
+  box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+/* Text Styling */
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  border-bottom: 3px solid #007bff;
+  display: inline-block;
+  padding-bottom: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.hero-title:hover {
+  color: #0056b3;
+}
+
+.hero-subtitle {
+  font-size: 1.8rem;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Hero Button */
+.hero-button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: inline-block;
+  position: relative;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.hero-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+  box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Hover Glow Effect */
+.hero-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.hero-button:hover::before {
+  transform: translate(-50%, -50%) scale(2);
+  opacity: 1;
+}
+
+/* Background Animation */
+@keyframes moveBg {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+/* Services Section */
+
+.section-services {
+  padding-top: 115px;
+  padding-bottom: 120px;
+}
+
+.section-services .header-section {
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.section-services .header-section .title {
+  position: relative;
+  padding-bottom: 14px;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.section-services .header-section .title:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #000000;
+  border-radius: 3px;
+}
+
+.section-services .header-section .title:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(30px);
+  width: 10px;
+  height: 3px;
+  background-color: #504f93;
+  border-radius: 3px;
+}
+
+.section-services .header-section .description {
+  font-size: 14px;
+  color: #282828;
+}
+
+.section-services .service-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.section-services .single-service {
+  position: relative;
+  margin-top: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 40px 30px;
+  overflow: hidden;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  width: 300px;
+  transition: all 0.3s ease;
+  flex: 1 1 calc(25% - 30px); /* 4 items in a row */
+  max-width: calc(25% - 30px);
+}
+
+.section-services .single-service .circle-before {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  transform: translate(40%, -40%);
+  width: 150px;
+  height: 150px;
+  background-color: #000000;
+  border: 6px solid red;
+  border-radius: 50%;
+  transition: all 0.6s;
+}
+
+.section-services .single-service:hover .circle-before {
+  width: 100%;
+  height: 100%;
+  transform: none;
+  border: 0;
+  border-radius: 0;
+  opacity: 1;
+}
+
+.section-services .single-service .content {
+  position: relative;
+  z-index: 20;
+}
+
+.section-services .single-service .icon {
+  display: inline-block;
+  margin-bottom: 26px;
+  width: 70px;
+  height: 70px;
+  background-color: #000000;
+  border-radius: 5px;
+  line-height: 70px;
+  text-align: center;
+  color: #fff;
+  font-size: 30px;
+  transition: all 0.3s;
+}
+
+.section-services .single-service:hover .icon {
+  background-color: #fff;
+  color: #000000;
+}
+
+.section-services .single-service .title {
+  margin-bottom: 18px;
+  font-weight: 700;
+  font-size: 23px;
+  transition: color 0.3s;
+}
+
+.section-services .single-service:hover .title {
+  color: #fff;
+}
+
+.section-services .single-service .description {
+  margin-bottom: 20px;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.section-services .single-service:hover .description {
+  color: #fff;
+}
+
+.section-services .single-service a {
+  position: relative;
+  font-size: 18px;
+  color: #202020;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.section-services .single-service:hover a {
+  color: #fff;
+}
+
+.section-services .single-service a:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #000000;
+  transition: background-color 0.3s;
+}
+
+.section-services .single-service:hover a:after {
+  background-color: #fff;
+  color: red;
+}
+
+/* Products Gallery */
+
+.products-gallery {
+  padding: 50px 0;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.products-gallery h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.products-gallery small {
+  font-size: 14px;
+  /* Slightly smaller text */
+  color: #777;
+  /* Softer color for subtle emphasis */
+  display: block;
+  /* Ensures it appears below the heading */
+  margin-bottom: 20px;
+  /* Space before gallery items */
+  font-style: italic;
+  /* Adds a stylish look */
+}
+
+/* Grid container */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Individual product item */
+.gallery-item {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  overflow: hidden;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Image */
+.gallery-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Product Name */
+.gallery-item p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  margin: 0;
+}
+
+
+/* Contact Form */
+.contact {
+  padding: 100px 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  background: none !important;
+  background-color: #fff !important;
+  /* Ensures white background */
+}
+
+.contact .header-section {
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.contact .header-section .title {
+  position: relative;
+  padding-bottom: 14px;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.contact .header-section .title:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #000000;
+  border-radius: 3px;
+}
+
+.contact .header-section .title:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(30px);
+  width: 10px;
+  height: 3px;
+  background-color: #504f93;
+  border-radius: 3px;
+}
+
+.contact .header-section .description {
+  font-size: 14px;
+  color: #282828;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.contact-form button {
+  padding: 12px 24px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.contact-form button:hover {
+  background-color: #504f93;
+}
+
+.response-message {
+  text-align: center;
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
+}
+
+
+/* Responsive Design */
+
+/* Mobile Responsive Fixes */
+@media screen and (max-width: 768px) {
+  .app {
+    padding: 100px 20px;
+    /* Reduce padding */
+  }
+
+  .hero {
+    padding: 50px 15px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .section-services .service-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-services .single-service {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* Adjust grid for mobile */
+  }
+
+  .gallery-item img {
+    height: 120px;
+    /* Reduce image size */
+  }
+
+  .contact {
+    padding: 50px 15px;
+  }
+}
+
+/* Tablet View: 2 in a row */
+@media (max-width: 992px) {
+  .section-services .single-service {
+    flex: 1 1 calc(50% - 30px); /* 2 items per row */
+    max-width: calc(50% - 30px);
+  }
+}
+
+/* Mobile View: 1 in a row */
+@media (max-width: 576px) {
+  .section-services .single-service {
+    flex: 1 1 100%; /* 1 item per row */
+    max-width: 100%;
+  }
+}

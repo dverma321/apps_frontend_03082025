@@ -1,0 +1,14 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #fff; /* Adjust if necessary */
+  }
+  
+  /* Push down only the content below the navbar */
+  .computerapps_main_container {
+    padding-top: 100px; /* Pushes content down without affecting navbar */
+    
+  }
+  
