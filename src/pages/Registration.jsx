@@ -82,9 +82,16 @@ export const Registration = () => {
 
       if (data.status === "400") {
         window.alert("Please fill all the details...");
-      } else if (data.status === "402") {
+      } 
+      else if (data.status === "401") {
+        window.alert("Only use popular domain like Gmail...");
+      } 
+      
+      else if (data.status === "402") {
         window.alert("Email Already Exits...");
-      } else if (data.status === "403") {
+      } 
+      
+      else if (data.status === "403") {
         window.alert("Password doesn't match...");
       }
       else if (data.status === "404") {

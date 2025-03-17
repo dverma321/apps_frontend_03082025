@@ -67,7 +67,7 @@ const ComputerProducts = () => {
         product.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    const handleDownload = async (name, version, downloadLink) => {
+    const handleDownload = async (appName, version, downloadLink) => {
         if (!isLoggedIn) {
             alert("Please log in to download apps.");
             return;
@@ -76,7 +76,7 @@ const ComputerProducts = () => {
         try {
             const response = await axios.post(
                 `${apiUrl}/computer/download`,
-                { name, version, targetUrl: downloadLink },
+                { appName, version, targetUrl: downloadLink, deviceType:"Windows" },
                 {
                     headers: { Authorization: `Bearer ${token}` },
                     withCredentials: true,
@@ -126,9 +126,10 @@ const ComputerProducts = () => {
                             <div className="flex-1">
                                 <h2 className="text-lg font-semibold">{app.name}</h2>
                                 <p className="text-sm text-gray-600">{app.category}</p>
-                                <p className="text-sm font-semibold">Version: {app.version}</p>
+                                <p className="text-sm font-semibold">Version: {app.Version}</p>
+                                <p className="text-sm text-gray-900">Password: {app.password}</p>
                                 <p className="text-sm text-gray-700">Mods: {app.mods?.join(", ")}</p>
-                                <p className="text-sm text-gray-500">Uploaded on: {app.uploadedon}</p>
+                                <p className="text-sm text-gray-500">Uploaded on: {app.date}</p>
                                 <p className="text-sm text-gray-600 line-clamp-5 mt-1">
                                     {app.details || "No details available."}
                                 </p>

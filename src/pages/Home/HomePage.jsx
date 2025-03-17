@@ -40,7 +40,7 @@ const HomePage = () => {
 
                 const data = await res.json();
                 const productsArray = Array.isArray(data) ? data : data.apps || [];
-                
+
                 setProducts(productsArray.slice(0, 8)); // Take only 8 products
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -86,42 +86,69 @@ const HomePage = () => {
         }
     };
 
+    // Add scroll effect using useEffect
+    useEffect(() => {
+        const handleScroll = () => {
+            const heroBackground2 = document.querySelector(".hero-background-2");
+            if (heroBackground2) {
+                const rect = heroBackground2.getBoundingClientRect();
+
+                // Check if the second section is in the viewport
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    heroBackground2.classList.add("visible");
+                } else {
+                    heroBackground2.classList.remove("visible");
+                }
+            }
+        };
+
+
+        // Add scroll event listener
+        window.addEventListener("scroll", handleScroll);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []); // Empty dependency array ensures this runs only once
+
 
     return (
         <div className="app">
             {/* Hero Section */}
-
+           
             <section className="hero">
-                <div className="container">
-                    <div className="hero-box">
+                {/* First Image: Covers the Whole Page */}
+                <div className="hero-background-1">
+                    <img
+                        src="/assets/div_title.jpg"
+                        alt="Background"
+                        className="hero-image"
+                    />
+                </div>
 
-                        {/* Image */}
-                        <div className="hero-image-container">
-                            <img
-                                src="/images/gallery/bittu_halfshirt.jpg"
-                                alt="Divyanshu Verma"
-                                className="hero-image"
-                            />
-                        </div>
-
-                        {/* Content */}
-                        <div className="hero-content">
-                            <h1 className="hero-title">Divyanshu Verma</h1>
-                            <h2 className="hero-subtitle">MERN Developer</h2>
-                            <p className="hero-description">
-                                Welcome to my portfolio! I'm a passionate and creative MERN stack
-                                developer with a knack for building scalable, user-friendly, and
-                                modern web applications. I love turning ideas into reality through
-                                code and always strive to learn and grow in the ever-evolving tech
-                                world.
-                            </p>
-                            <a href="#services" className="btn hero-button">
-                                Explore My Services
-                            </a>
-                        </div>
+                {/* Second Image: Appears on Scroll */}
+                <div className="hero-background-2">
+                    <div className="hero-content-overlay">
+                        <h1 className="hero-title">Divyanshu Verma</h1>
+                        <h2 className="hero-subtitle">MERN Developer</h2>
+                        <p className="hero-description">
+                            Welcome to my portfolio! I'm a passionate and creative MERN stack
+                            developer with a knack for building scalable, user-friendly, and
+                            modern web applications. I love turning ideas into reality through
+                            code and always strive to learn and grow in the ever-evolving tech
+                            world.
+                        </p>
+                        <a href="#services" className="btn hero-button">
+                            Explore My Services
+                        </a>
                     </div>
                 </div>
             </section>
+
+
+
+
 
             {/* Services Section */}
             <section className="section-services" id="services">

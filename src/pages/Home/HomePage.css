@@ -10,133 +10,90 @@ body {
 .app {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 100px;
+  padding: 100px 0px;
 }
 
 /* Hero Section */
-.hero {
-  background-color: white;
-  padding: 100px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-/* Hero Box - Centered and Bordered */
-.hero-box {
-  text-align: center;
-  padding: 40px;
-  background-color: #f8f9fa;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
+    /* First Image: Covers the Whole Page */
+    .hero-background-1 {
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
 
-.hero-box:hover {
-  transform: scale(1.03);
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
-}
+    .hero-background-1 img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
-/* Hero Image */
-.hero-image-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
+    /* Second Image: Appears on Scroll */
+    .hero-background-2 {
+        background-image: url('/assets/plan_bg.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        opacity: 0; /* Initially hidden */
+        transform: translateY(50px); /* Slightly shifted down */
+        transition: opacity 1s ease, transform 1s ease;
+        
+    }
 
-.hero-image {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #007bff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-}
+    .hero-background-2.visible {
+        opacity: 1; /* Visible when scrolled into view */
+        transform: translateY(0);
+    }
 
-.hero-image:hover {
-  transform: rotate(5deg) scale(1.1);
-  box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.4);
-}
+    /* Content Overlay */
+    .hero-content-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #fff; /* Text color */
+    }
 
-/* Text Styling */
-.hero-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #333;
-  text-transform: uppercase;
-  border-bottom: 3px solid #007bff;
-  display: inline-block;
-  padding-bottom: 5px;
-  transition: color 0.3s ease-in-out;
-}
+    /* Text Styling */
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    }
 
-.hero-title:hover {
-  color: #0056b3;
-}
+    .hero-subtitle {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    }
 
-.hero-subtitle {
-  font-size: 1.8rem;
-  color: #007bff;
-  font-weight: 600;
-}
+    .hero-description {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    }
 
-.hero-description {
-  font-size: 1.2rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
+    /* Button Styling */
+    .hero-button {
+        background-color: #007BFF; /* Blue color */
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
 
-/* Hero Button */
-.hero-button {
-  background-color: #007bff;
-  color: white;
-  padding: 12px 30px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.2rem;
-  display: inline-block;
-  position: relative;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
-  overflow: hidden;
-}
-
-.hero-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.1);
-  box-shadow: 0px 6px 20px rgba(0, 123, 255, 0.5);
-}
-
-/* Button Hover Glow Effect */
-.hero-button::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-}
-
-.hero-button:hover::before {
-  transform: translate(-50%, -50%) scale(2);
-  opacity: 1;
-}
-
-/* Background Animation */
-@keyframes moveBg {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
+    .hero-button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
 
 
 /* Services Section */
@@ -205,8 +162,8 @@ body {
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   width: 300px;
   transition: all 0.3s ease;
-  flex: 1 1 calc(25% - 30px); /* 4 items in a row */
-  max-width: calc(25% - 30px);
+  flex: 1 1 calc(35% - 30px); /* 4 items in a row */
+  max-width: calc(35% - 30px);
 }
 
 .section-services .single-service .circle-before {

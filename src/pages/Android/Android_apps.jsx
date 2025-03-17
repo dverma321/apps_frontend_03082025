@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Slider from "react-slick"; // Fixed typo in import
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import './Android_apps.css';
 
 const AndroidApps = () => {
@@ -9,7 +12,7 @@ const AndroidApps = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [allApps, setAllApps] = useState([]); // New state for all apps
+  const [allApps, setAllApps] = useState([]);
 
   const apiUrl = import.meta.env.DEV
     ? import.meta.env.VITE_LOCAL_API_URL
@@ -20,7 +23,6 @@ const AndroidApps = () => {
   useEffect(() => {
     setIsLoggedIn(!!token);
 
-    // Fetch paginated apps
     const fetchApps = async () => {
       try {
         const response = await axios.get(
@@ -44,8 +46,6 @@ const AndroidApps = () => {
     fetchApps();
   }, [currentPage, token]);
 
-  // Fetch all apps for filtering
-
   useEffect(() => {
     const fetchAllApps = async () => {
       try {
@@ -54,7 +54,7 @@ const AndroidApps = () => {
           withCredentials: true,
         });
 
-        setAllApps(response.data.apps || []); // ✅ Update allApps state
+        setAllApps(response.data.apps || []);
         setFilteredApps(response.data.apps || []);
       } catch (error) {
         console.error("Error fetching all apps:", error);
@@ -62,11 +62,7 @@ const AndroidApps = () => {
     };
 
     fetchAllApps();
-  }, [token]); // Runs only when the token changes
-
-
-
-  // Filter apps based on search input
+  }, [token]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -78,8 +74,6 @@ const AndroidApps = () => {
       setFilteredApps(filtered);
     }
   }, [searchTerm, apps, allApps]);
-
-
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -94,7 +88,7 @@ const AndroidApps = () => {
     try {
       const response = await axios.post(
         `${apiUrl}/android/download`,
-        { appName, version, targetUrl: downloadLink },
+        { appName, version, targetUrl: downloadLink, deviceType: "Android" },
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
@@ -102,7 +96,6 @@ const AndroidApps = () => {
       );
 
       if (response.status === 201) {
-        // Only redirect if download recording was successful
         window.location.href = downloadLink;
       } else {
         alert("Failed to record download. Try again.");
@@ -130,11 +123,19 @@ const AndroidApps = () => {
       .catch((error) => console.error("Error reporting issue:", error));
   };
 
-
+  // Carousel settings
+  const settings = {
+    dots: true, // Show dots for navigation
+    infinite: true, // Infinite looping
+    speed: 500, // Transition speed in milliseconds
+    slidesToShow: 1, // Number of slides to show at a time
+    slidesToScroll: 1, // Number of slides to scroll at a time
+    autoplay: true, // Enable auto-sliding
+    autoplaySpeed: 3000, // Auto-slide interval in milliseconds (3 seconds)
+  };
 
   return (
     <div className="container mx-auto p-4">
-
       {isLoggedIn ? (
         <input
           type="text"
@@ -163,6 +164,34 @@ const AndroidApps = () => {
                 alt={app.name}
                 className="w-full h-40 object-cover rounded-md mb-3"
               />
+               <div className="mt-3 mb-5">
+                <h3 className="text-xl pt-1 mb-1 font-bold text-gray-800 border-b-4 border-blue-500 pb-3 inline-block">
+                  Screenshots:
+                </h3>
+                <Slider {...settings}>
+                  {app.image2 ? (
+                    <div>
+                      <img src={app.image2} alt={`${app.name} screenshot 2`} className="w-full h-40 object-cover rounded-md" />
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500">No screenshot available</div>
+                  )}
+                  {app.image3 ? (
+                    <div>
+                      <img src={app.image3} alt={`${app.name} screenshot 3`} className="w-full h-40 object-cover rounded-md" />
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500">No screenshot available</div>
+                  )}
+                  {app.image4 ? (
+                    <div>
+                      <img src={app.image4} alt={`${app.name} screenshot 4`} className="w-full h-40 object-cover rounded-md" />
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500">No screenshot available</div>
+                  )}
+                </Slider>
+              </div>
               <div className="flex-1">
                 <h2 className="text-lg font-semibold">{app.name}</h2>
                 <p className="text-sm text-gray-600">{app.category}</p>
@@ -173,7 +202,8 @@ const AndroidApps = () => {
                 <p className="text-sm text-gray-600 line-clamp-5 mt-1">
                   {app.details || "No details available."}
                 </p>
-              </div>
+              </div>             
+
               {isLoggedIn ? (
                 <>
                   <button
@@ -196,9 +226,6 @@ const AndroidApps = () => {
                   >
                     Report
                   </button>
-
-
-
                 </>
               ) : (
                 <p className="text-red-500 text-sm mt-3 text-center">
@@ -245,8 +272,6 @@ const AndroidApps = () => {
           )}
         </div>
       )}
-
-
     </div>
   );
 };
