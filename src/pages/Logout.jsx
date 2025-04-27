@@ -13,7 +13,7 @@ const Logout = () => {
 
         // Call the backend to log the user out
         const response = await fetch(`${apiUrl}/user/logout`, {
-          method: 'GET',
+          method: 'POST',
           credentials: 'include',
         });
 
@@ -23,6 +23,7 @@ const Logout = () => {
           // Clear localStorage and cookies
           document.cookie = 'jwtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
           localStorage.removeItem('jwtoken');
+          localStorage.removeItem('userData'); // Remove stored user details
           
           // Dispatch action to update the state (logged out)
           dispatch({ type: 'USER', payload: false });

@@ -21,7 +21,10 @@ import ComputerProducts from './pages/Computer/ComputerApps.jsx';
 import ReportedIssues from './pages/Report/ReportIssue.jsx';
 import History from './pages/History/history.jsx';
 import AllUserDownloads from './pages/History/AllUsersHistory.jsx';
-import New from './pages/Home/New.jsx';
+import GemCoins from './pages/Gems/Gems.jsx';
+import HomePage from './pages/Home/HomePage.jsx';
+import TranslateTable from './pages/English/TranslateTable.jsx';
+import { Layout } from './pages/English/Layout.jsx';
 
 export const userContext = createContext();
 
@@ -34,8 +37,10 @@ function App() {
     if (token) {
       dispatch({ type: 'USER', payload: true }); // Set isAuthenticated to true if token exists
     }
-    setAuthInitialized(true); // Mark auth as initialized
-  }, []);
+    setAuthInitialized(true); // Mark auth as initialized (after token check)
+  }, []);  // Empty dependency array ensures this effect runs only once
+ 
+
 
   if (!authInitialized) {
     return <Loading />;
@@ -44,7 +49,7 @@ function App() {
   return (
     <userContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
-        <Navbar /> {/* Navbar outside of Routes */}
+        <Navbar /> 
         <Routes>
           <Route
             path="/"
@@ -54,11 +59,11 @@ function App() {
               ) : state.isAuthenticated ? ( // Show welcome message if authenticated
                 <AndroidApps />
               ) : ( // Otherwise, show the Main component
-                <New />
+                <HomePage />
               )
             }
           />
-          
+
           <Route
             path="/login"
             element={state.isAuthenticated ? <AndroidApps /> : <LoginPage />}
@@ -67,29 +72,30 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/new" element={<New />} />
+          <Route path="/logout" element={<Logout />} />         
           <Route path="*" element={<NotFound />} />
 
           <Route path="/messages" element={state.isAuthenticated && state.userInfo?.isAdmin ? <DisplayEmails /> : <LoginPage />} />
-          
-          
+
+
           <Route path="/android" element={<AndroidApps />} />
 
           {/* For computer routes */}
           <Route path="/computerapps" element={<ComputerProducts />} />
 
+          {/* For Translation  */}
+          <Route path="/layout" element={<Layout />} />
+          
           {/* history for download apps */}
 
-          <Route path="/history" element={state.isAuthenticated ?  <History /> : <LoginPage />} />
-          <Route path="/allusers" element={state.isAuthenticated && state.userInfo?.isAdmin ? <AllUserDownloads /> : <AndroidApps />} />    
+          <Route path="/history" element={state.isAuthenticated ? <History /> : <LoginPage />} />
+          <Route path="/allusers" element={state.isAuthenticated && state.userInfo?.isAdmin ? <AllUserDownloads /> : <AndroidApps />} />
 
-          <Route path="/report-issue" element={state.isAuthenticated && state.userInfo?.isAdmin ? <ReportedIssues /> : <AndroidApps />} />  
+          {/* For Gem coins     */}
+          <Route path="/coins" element={state.isAuthenticated ? <GemCoins /> : <LoginPage />} />
+          <Route path="/report-issue" element={state.isAuthenticated && state.userInfo?.isAdmin ? <ReportedIssues /> : <AndroidApps />} />
 
 
-
-
-          
         </Routes>
       </BrowserRouter>
     </userContext.Provider>

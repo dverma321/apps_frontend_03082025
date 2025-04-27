@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
-import Slider from "react-slick"; // Fixed typo in import
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './Android_apps.css';
+import LikeDislikeButton from "../LikeandDislike/LikeDislikeButton";
+import useFetchUser from "../API/FetchUserInfo";
 
 const AndroidApps = () => {
   const [apps, setApps] = useState([]);
@@ -75,6 +77,23 @@ const AndroidApps = () => {
     }
   }, [searchTerm, apps, allApps]);
 
+  
+  useEffect(() => {
+    console.log("currentPage updated: ", currentPage);
+    const container = document.getElementById("androidcontainer");
+    container?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
+    // page on the top 
+
+    const handlePageChange = (newPage) => {
+      if (newPage > 0 && newPage <= totalPages) {
+        setCurrentPage(newPage);
+        console.log("page : ", newPage);
+      }
+    }; 
+ 
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -134,8 +153,54 @@ const AndroidApps = () => {
     autoplaySpeed: 3000, // Auto-slide interval in milliseconds (3 seconds)
   };
 
+  // image loading
+
+  const [imageLoading, setImageLoading] = useState({}); // Track image loading
+
+  const handleImageLoad = (index) => {
+    setImageLoading((prev) => ({ ...prev, [index]: false }));
+  };
+
+
+
+  
+  // for updating gem coins
+
+  const updateGemsIfNeeded = async () => {
+    try {
+      const token = localStorage.getItem("jwtoken");
+      if (!token) return;
+
+      await axios.post(
+        `${apiUrl}/update_gem_controller/update-gems`,
+        {}, // empty payload
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true
+        }
+      );
+    } catch (error) {
+      console.error("Error updating gems:", error);
+    }
+  };
+
+  useEffect(() => {
+    const handleActivity = () => {
+      updateGemsIfNeeded();
+    };
+
+    window.addEventListener("mousemove", handleActivity);
+    window.addEventListener("keydown", handleActivity);
+
+    return () => {
+      window.removeEventListener("mousemove", handleActivity);
+      window.removeEventListener("keydown", handleActivity);
+    };
+  }, []);
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="mx-auto p-4" id="androidcontainer">
+
       {isLoggedIn ? (
         <input
           type="text"
@@ -159,12 +224,18 @@ const AndroidApps = () => {
               key={index}
               className="bg-white shadow-md rounded-lg p-4 flex flex-col h-full"
             >
-              <img
-                src={app.image}
-                alt={app.name}
-                className="w-full h-40 object-cover rounded-md mb-3"
-              />
-               <div className="mt-3 mb-5">
+              {imageLoading[index] ? (
+                <div className="skeleton"></div> // Show skeleton while loading
+              ) : (
+                <img
+                  src={app.image}
+                  alt={app.name}
+                  className="w-full h-40 object-cover rounded-md mb-3"
+                  onLoad={() => handleImageLoad(index)}
+                />
+              )}
+
+              <div className="mt-3 mb-5">
                 <h3 className="text-xl pt-1 mb-1 font-bold text-gray-800 border-b-4 border-blue-500 pb-3 inline-block">
                   Screenshots:
                 </h3>
@@ -192,6 +263,7 @@ const AndroidApps = () => {
                   )}
                 </Slider>
               </div>
+
               <div className="flex-1">
                 <h2 className="text-lg font-semibold">{app.name}</h2>
                 <p className="text-sm text-gray-600">{app.category}</p>
@@ -202,7 +274,7 @@ const AndroidApps = () => {
                 <p className="text-sm text-gray-600 line-clamp-5 mt-1">
                   {app.details || "No details available."}
                 </p>
-              </div>             
+              </div>
 
               {isLoggedIn ? (
                 <>
@@ -224,8 +296,12 @@ const AndroidApps = () => {
                     }}
                     className="mt-2 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   >
-                    Report
+                    <p>Need update version</p>
+                    <p>Broken Link</p>
                   </button>
+
+                  <LikeDislikeButton appId={app.name} />
+
                 </>
               ) : (
                 <p className="text-red-500 text-sm mt-3 text-center">
@@ -243,10 +319,10 @@ const AndroidApps = () => {
             <>
               <button
                 disabled={currentPage === 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
+                onClick={() => handlePageChange(currentPage - 1)}
                 className={`px-4 py-2 rounded ${currentPage === 1
                   ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 text-white"
+                  : "bg-blue-500 hover:bg-red-600 text-white"
                   }`}
               >
                 Previous
@@ -256,10 +332,10 @@ const AndroidApps = () => {
               </span>
               <button
                 disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage(currentPage + 1)}
+                onClick={() => handlePageChange(currentPage + 1)}
                 className={`px-4 py-2 rounded ${currentPage === totalPages
                   ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 text-white"
+                  : "bg-blue-500 hover:bg-red-600 text-white"
                   }`}
               >
                 Next
@@ -272,6 +348,7 @@ const AndroidApps = () => {
           )}
         </div>
       )}
+
     </div>
   );
 };

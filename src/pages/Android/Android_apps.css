@@ -1,3 +1,15 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Important: prevent body from scrolling */
+}
+
+#androidcontainer {
+  height: 100vh; /* Full height of screen */
+  overflow-y: auto; /* Enable vertical scroll only inside container */
+}
+
 .searchclass {
     width: 100%;
     max-width: 400px;
@@ -5,7 +17,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
-    margin-top: 80px; /* Push it below navbar */
+    margin-top: 100px; /* Push it below navbar */
     display: block;
     background-color: white;
 
@@ -24,3 +36,22 @@
     color: red;
 
 }
+
+.skeleton {
+    background: linear-gradient(-90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 400% 400%;
+    animation: shimmer 1.5s infinite;
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+  

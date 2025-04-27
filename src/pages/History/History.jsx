@@ -30,7 +30,7 @@ const History = () => {
   }, []);
 
   return (
-    <div className="container mx-auto m-4 p-4">
+    <div className="container mx-auto m-5 pt-5">
       <h1 className="text-2xl font-bold text-center mt-16 mb-10">Download History</h1>
 
       {loading ? (

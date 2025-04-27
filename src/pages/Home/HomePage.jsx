@@ -1,274 +1,165 @@
-import React, { useState, useEffect } from "react";
-import "./HomePage.css";
-
-import "@fortawesome/fontawesome-free/css/all.min.css";
-
+import React from 'react';
+import './HomePage.css'; // We'll create this CSS file next
+import { FaCode, FaServer, FaDatabase, FaBriefcase, FaGraduationCap, FaPhone, FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaGithub } from 'react-icons/fa';
 
 const HomePage = () => {
-    const [products, setProducts] = useState([]);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [responseMessage, setResponseMessage] = useState("");
-
-
-    // Simulate fetching products from an API
-
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const apiUrl = import.meta.env.DEV
-                    ? import.meta.env.VITE_LOCAL_API_URL
-                    : import.meta.env.VITE_PROD_API_URL;
-
-                const token = localStorage.getItem("jwtoken") || "";
-
-                const res = await fetch(`${apiUrl}/android/only-android-apps`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    credentials: "include",
-                });
-
-                if (!res.ok) {
-                    const errorText = await res.text();
-                    throw new Error(`Failed to fetch products: ${res.status} - ${errorText}`);
-                }
-
-                const data = await res.json();
-                const productsArray = Array.isArray(data) ? data : data.apps || [];
-
-                setProducts(productsArray.slice(0, 8)); // Take only 8 products
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
-
-        fetchProducts();
-    }, []);
-
-    // for sending email from the home page
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const apiUrl = import.meta.env.DEV
-            ? import.meta.env.VITE_LOCAL_API_URL
-            : import.meta.env.VITE_PROD_API_URL;
-
-        try {
-            const response = await fetch(`${apiUrl}/contact/messages`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email, message }),
-            });
-
-            const data = await response.json();
-            setResponseMessage(data.message);
-
-            // Clear form fields
-            setName("");
-            setEmail("");
-            setMessage("");
-
-            // Clear the response message after 3 seconds
-            setTimeout(() => {
-                setResponseMessage("");
-            }, 3000);
-        } catch (error) {
-            console.error("Error submitting contact form:", error);
-            setResponseMessage("Something went wrong. Please try again.");
-        }
-    };
-
-    // Add scroll effect using useEffect
-    useEffect(() => {
-        const handleScroll = () => {
-            const heroBackground2 = document.querySelector(".hero-background-2");
-            if (heroBackground2) {
-                const rect = heroBackground2.getBoundingClientRect();
-
-                // Check if the second section is in the viewport
-                if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                    heroBackground2.classList.add("visible");
-                } else {
-                    heroBackground2.classList.remove("visible");
-                }
-            }
-        };
-
-
-        // Add scroll event listener
-        window.addEventListener("scroll", handleScroll);
-
-        // Cleanup the event listener on component unmount
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []); // Empty dependency array ensures this runs only once
-
-
-    return (
-        <div className="app">
-            {/* Hero Section */}
-           
-            <section className="hero">
-                {/* First Image: Covers the Whole Page */}
-                <div className="hero-background-1">
-                    <img
-                        src="/assets/div_title.jpg"
-                        alt="Background"
-                        className="hero-image"
-                    />
-                </div>
-
-                {/* Second Image: Appears on Scroll */}
-                <div className="hero-background-2">
-                    <div className="hero-content-overlay">
-                        <h1 className="hero-title">Divyanshu Verma</h1>
-                        <h2 className="hero-subtitle">MERN Developer</h2>
-                        <p className="hero-description">
-                            Welcome to my portfolio! I'm a passionate and creative MERN stack
-                            developer with a knack for building scalable, user-friendly, and
-                            modern web applications. I love turning ideas into reality through
-                            code and always strive to learn and grow in the ever-evolving tech
-                            world.
-                        </p>
-                        <a href="#services" className="btn hero-button">
-                            Explore My Services
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-
-
-
-
-            {/* Services Section */}
-            <section className="section-services" id="services">
-                <div className="header-section">
-                    <h2 className="title">My Services</h2>
-                    <p className="description">
-                        I offer a wide range of services to help you achieve your goals.
-                    </p>
-                </div>
-                <div className="service-cards">
-                    <div className="single-service">
-                        <div className="circle-before"></div>
-                        <div className="content">
-                            <div className="icon">
-                                <i className="fas fa-mobile-alt"></i>
-                            </div>
-                            <h3 className="title">Android Developer</h3>
-                            <p className="description">
-                                Building modern and responsive Android applications.
-                            </p>
-                            <a href="#!">Learn More</a>
-                        </div>
-                    </div>
-                    <div className="single-service">
-                        <div className="circle-before"></div>
-                        <div className="content">
-                            <div className="icon">
-                                <i className="fas fa-desktop"></i>
-                            </div>
-                            <h3 className="title">Desktop Developer</h3>
-                            <p className="description">
-                                Creating powerful desktop applications for various platforms.
-                            </p>
-                            <a href="#!">Learn More</a>
-                        </div>
-                    </div>
-                    <div className="single-service">
-                        <div className="circle-before"></div>
-                        <div className="content">
-                            <div className="icon">
-                                <i className="fas fa-globe"></i>
-                            </div>
-                            <h3 className="title">Website Developer</h3>
-                            <p className="description">
-                                Designing and developing responsive and dynamic websites.
-                            </p>
-                            <a href="#!">Learn More</a>
-                        </div>
-                    </div>
-                    <div className="single-service">
-                        <div className="circle-before"></div>
-                        <div className="content">
-                            <div className="icon">
-                                <i className="fas fa-robot"></i>
-                            </div>
-                            <h3 className="title">AI Expert</h3>
-                            <p className="description">
-                                Implementing AI and machine learning solutions.
-                            </p>
-                            <a href="#!">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Products Gallery */}
-
-            <section className="products-gallery">
-                <h2>Trending Apps</h2>
-                <small>Mostly downloaded by users</small>
-                <div className="gallery">
-                    {products.map((product) => (
-                        <div key={product.id} className="gallery-item">
-                            <img src={product.image} alt={product.name} />
-                            <p>{product.name}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-
-            {/* Contact Form */}
-
-            <section className="contact">
-                <div className="header-section">
-                    <h2 className="title">Contact Me</h2>
-                    <p className="description">
-                        Have a project in mind? Let's work together!
-                    </p>
-                </div>
-                <form className="contact-form" onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Your Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="email"
-                        placeholder="Your Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <textarea
-                        placeholder="Your Message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        required
-                    ></textarea>
-                    <button type="submit">Send Message</button>
-                </form>
-
-                {responseMessage && <p className="response-message">{responseMessage}</p>}
-            </section>
-
-
+  return (
+    <div className="resume-container">
+      {/* Header Section */}
+      <header className="resume-header">
+        <div className="header-content">
+          <h1>Divyanshu Verma</h1>
+          <h2>SAP UI5 Designer / Fiori Consultant | MERN Developer</h2>
+          <div className="contact-info">
+            <span><FaPhone /> +91 8058-70-5827</span>
+            <span><FaEnvelope /> divyanshuverma36@example.com</span>
+            <span><FaMapMarkerAlt /> Udaipur, Rajasthan, India</span>
+          </div>
         </div>
-    );
+      </header>
+
+      {/* Main Content */}
+      <div className="resume-main">
+        {/* Left Column */}
+        <div className="resume-left">
+          {/* About Section */}
+          <section className="resume-section">
+            <h3 className="section-title">About Me</h3>
+            <p>
+              Experienced SAP Fiori/UI5 Developer and MERN stack enthusiast with a passion for creating 
+              elegant, efficient solutions. Strong background in both frontend development and enterprise 
+              application design.
+            </p>
+          </section>
+
+          {/* Skills Section */}
+          <section className="resume-section">
+            <h3 className="section-title">Technical Skills</h3>
+            <div className="skills-grid">
+              <div className="skill-category">
+                <h4><FaCode /> Frontend</h4>
+                <ul>
+                  <li>SAP UI5/Fiori</li>
+                  <li>React.js</li>
+                  <li>JavaScript/TypeScript</li>
+                  <li>HTML5/CSS3</li>
+                  <li>Bootstrap/Tailwind</li>
+                </ul>
+              </div>
+              <div className="skill-category">
+                <h4><FaServer /> Backend</h4>
+                <ul>
+                  <li>Node.js</li>
+                  <li>Express</li>
+                  <li>OData Services</li>
+                  <li>RESTful APIs</li>
+                </ul>
+              </div>
+              <div className="skill-category">
+                <h4><FaDatabase /> Database & Tools</h4>
+                <ul>
+                  <li>MongoDB</li>
+                  <li>SQL</li>
+                  <li>SAP BTP</li>
+                  <li>Git/GitHub</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Education Section */}
+          <section className="resume-section">
+            <h3 className="section-title"><FaGraduationCap /> Education</h3>
+            <div className="timeline-item">
+              <h4>Bachelor's Degree</h4>
+              <div className="timeline-meta">
+                <span className="timeline-date">2012 - 2016</span>
+                <span className="timeline-location">Rajasthan Technical University</span>
+              </div>
+              <p>Electrical Engineering</p>
+            </div>
+          </section>
+        </div>
+
+        {/* Right Column */}
+        <div className="resume-right">
+          {/* Experience Section */}
+          <section className="resume-section">
+            <h3 className="section-title"><FaBriefcase /> Experience</h3>
+            
+            <div className="timeline-item">
+              <h4>Fiori Developer – Novel Veritas Pvt. Ltd.</h4>
+              <div className="timeline-meta">
+                <span className="timeline-date">Present</span>
+                <span className="timeline-location">Udaipur, India</span>
+              </div>
+              <ul className="timeline-description">
+                <li>Developed SAP Fiori apps integrated with BTP</li>
+                <li>Implemented CRUD operations with OData services</li>
+                <li>Customized Fiori elements apps</li>
+                <li>Worked on SAPUI5 standalone applications</li>
+              </ul>
+              <div className="skill-tags">
+                <span>SAPUI5</span>
+                <span>Fiori</span>
+                <span>OData</span>
+                <span>BTP</span>
+              </div>
+            </div>
+
+            <div className="timeline-item">
+              <h4>Technical Support – Swiggy (FiveSDigital)</h4>
+              <div className="timeline-meta">
+                <span className="timeline-date">2022</span>
+                <span className="timeline-location">Remote</span>
+              </div>
+              <ul className="timeline-description">
+                <li>Provided technical support and resolved customer issues</li>
+                <li>Managed customer queries through multiple channels</li>
+                <li>Maintained high customer satisfaction ratings</li>
+              </ul>
+              <div className="skill-tags">
+                <span>Customer Support</span>
+                <span>Troubleshooting</span>
+                <span>Communication</span>
+              </div>
+            </div>
+
+            <div className="timeline-item">
+              <h4>Assistant Junior Engineer – RVUNL POWER PLANT</h4>
+              <div className="timeline-meta">
+                <span className="timeline-date">2017</span>
+                <span className="timeline-location">Rajasthan, India</span>
+              </div>
+              <ul className="timeline-description">
+                <li>Worked on electrical and mechanical systems</li>
+                <li>Assisted in maintenance operations</li>
+                <li>Participated in safety and operational procedures</li>
+              </ul>
+              <div className="skill-tags">
+                <span>Engineering</span>
+                <span>Maintenance</span>
+                <span>Operations</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="resume-footer">
+        <div className="social-links">
+          <a href="https://linkedin.com/in/divyanshu-verma-106360153" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin /> LinkedIn
+          </a>
+          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+            <FaGithub /> GitHub
+          </a>
+        </div>
+        <p>© {new Date().getFullYear()} Divyanshu Verma. All rights reserved.</p>
+      </footer>
+    </div>
+  );
 };
 
 export default HomePage;

@@ -1,497 +1,229 @@
-/* General Styles */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #e6edf7;
-  color: #202020;
+/* Resume.css */
+:root {
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --secondary: #2ecc71;
+  --dark: #2c3e50;
+  --light: #ecf0f1;
+  --gray: #95a5a6;
+  --light-gray: #bdc3c7;
+  --white: #ffffff;
 }
 
-.app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 100px 0px;
-}
-
-/* Hero Section */
-
-    /* First Image: Covers the Whole Page */
-    .hero-background-1 {
-        height: 100vh;
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .hero-background-1 img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    /* Second Image: Appears on Scroll */
-    .hero-background-2 {
-        background-image: url('/assets/plan_bg.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        width: 100%;
-        position: relative;
-        opacity: 0; /* Initially hidden */
-        transform: translateY(50px); /* Slightly shifted down */
-        transition: opacity 1s ease, transform 1s ease;
-        
-    }
-
-    .hero-background-2.visible {
-        opacity: 1; /* Visible when scrolled into view */
-        transform: translateY(0);
-    }
-
-    /* Content Overlay */
-    .hero-content-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: #fff; /* Text color */
-    }
-
-    /* Text Styling */
-    .hero-title {
-        font-size: 3rem;
-        margin-bottom: 10px;
-        color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
-    }
-
-    .hero-subtitle {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
-    }
-
-    .hero-description {
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-        color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
-    }
-
-    /* Button Styling */
-    .hero-button {
-        background-color: #007BFF; /* Blue color */
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-    }
-
-    .hero-button:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-    }
-
-
-/* Services Section */
-
-.section-services {
-  padding-top: 115px;
-  padding-bottom: 120px;
-}
-
-.section-services .header-section {
-  margin-bottom: 34px;
-  text-align: center;
-}
-
-.section-services .header-section .title {
-  position: relative;
-  padding-bottom: 14px;
-  margin-bottom: 25px;
-  font-weight: 700;
-  font-size: 32px;
-}
-
-.section-services .header-section .title:before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 3px;
-  background-color: #000000;
-  border-radius: 3px;
-}
-
-.section-services .header-section .title:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(30px);
-  width: 10px;
-  height: 3px;
-  background-color: #504f93;
-  border-radius: 3px;
-}
-
-.section-services .header-section .description {
-  font-size: 14px;
-  color: #282828;
-}
-
-.section-services .service-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-
-.section-services .single-service {
-  position: relative;
-  margin-top: 30px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 40px 30px;
-  overflow: hidden;
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  width: 300px;
-  transition: all 0.3s ease;
-  flex: 1 1 calc(35% - 30px); /* 4 items in a row */
-  max-width: calc(35% - 30px);
-}
-
-.section-services .single-service .circle-before {
-  position: absolute;
-  top: 0;
-  right: 0px;
-  transform: translate(40%, -40%);
-  width: 150px;
-  height: 150px;
-  background-color: #000000;
-  border: 6px solid red;
-  border-radius: 50%;
-  transition: all 0.6s;
-}
-
-.section-services .single-service:hover .circle-before {
-  width: 100%;
-  height: 100%;
-  transform: none;
-  border: 0;
-  border-radius: 0;
-  opacity: 1;
-}
-
-.section-services .single-service .content {
-  position: relative;
-  z-index: 20;
-}
-
-.section-services .single-service .icon {
-  display: inline-block;
-  margin-bottom: 26px;
-  width: 70px;
-  height: 70px;
-  background-color: #000000;
-  border-radius: 5px;
-  line-height: 70px;
-  text-align: center;
-  color: #fff;
-  font-size: 30px;
-  transition: all 0.3s;
-}
-
-.section-services .single-service:hover .icon {
-  background-color: #fff;
-  color: #000000;
-}
-
-.section-services .single-service .title {
-  margin-bottom: 18px;
-  font-weight: 700;
-  font-size: 23px;
-  transition: color 0.3s;
-}
-
-.section-services .single-service:hover .title {
-  color: #fff;
-}
-
-.section-services .single-service .description {
-  margin-bottom: 20px;
-  font-size: 14px;
-  transition: color 0.3s;
-}
-
-.section-services .single-service:hover .description {
-  color: #fff;
-}
-
-.section-services .single-service a {
-  position: relative;
-  font-size: 18px;
-  color: #202020;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.section-services .single-service:hover a {
-  color: #fff;
-}
-
-.section-services .single-service a:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: #000000;
-  transition: background-color 0.3s;
-}
-
-.section-services .single-service:hover a:after {
-  background-color: #fff;
-  color: red;
-}
-
-/* Products Gallery */
-
-.products-gallery {
-  padding: 50px 0;
-  text-align: center;
-  background-color: #f9f9f9;
-}
-
-.products-gallery h2 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.products-gallery small {
-  font-size: 14px;
-  /* Slightly smaller text */
-  color: #777;
-  /* Softer color for subtle emphasis */
-  display: block;
-  /* Ensures it appears below the heading */
-  margin-bottom: 20px;
-  /* Space before gallery items */
-  font-style: italic;
-  /* Adds a stylish look */
-}
-
-/* Grid container */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+.resume-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
-}
-
-/* Individual product item */
-.gallery-item {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
+  background-color: var(--white);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  padding-top: 100px;
 }
 
-.gallery-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+/* Header Styles */
+.resume-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--white);
+  padding: 2rem;
+  text-align: center;
 }
 
-/* Product Image */
-.gallery-item img {
-  width: 100%;
-  height: 150px;
-  object-fit: contain;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-/* Product Name */
-.gallery-item p {
-  font-size: 16px;
-  font-weight: bold;
-  color: #555;
+.resume-header h1 {
   margin: 0;
-}
-
-
-/* Contact Form */
-.contact {
-  padding: 100px 20px;
-  border-radius: 10px;
-  margin-bottom: 40px;
-  background: none !important;
-  background-color: #fff !important;
-  /* Ensures white background */
-}
-
-.contact .header-section {
-  margin-bottom: 34px;
-  text-align: center;
-}
-
-.contact .header-section .title {
-  position: relative;
-  padding-bottom: 14px;
-  margin-bottom: 25px;
+  font-size: 2.5rem;
   font-weight: 700;
-  font-size: 32px;
 }
 
-.contact .header-section .title:before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 3px;
-  background-color: #000000;
-  border-radius: 3px;
+.resume-header h2 {
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 400;
 }
 
-.contact .header-section .title:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(30px);
-  width: 10px;
-  height: 3px;
-  background-color: #504f93;
-  border-radius: 3px;
-}
-
-.contact .header-section .description {
-  font-size: 14px;
-  color: #282828;
-}
-
-.contact-form {
+.contact-info {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 500px;
-  margin: 0 auto;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
-.contact-form input,
-.contact-form textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
+.contact-info span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Main Content Layout */
+.resume-main {
+  display: flex;
+}
+
+.resume-left {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--light);
+}
+
+.resume-right {
+  flex: 2;
+  padding: 2rem;
+  background-color: var(--white);
+}
+
+/* Section Styles */
+.resume-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-category {
+  background-color: var(--white);
+  padding: 1rem;
   border-radius: 5px;
-  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.contact-form button {
-  padding: 12px 24px;
-  background-color: #000000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
+.skill-category h4 {
+  margin-top: 0;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.contact-form button:hover {
-  background-color: #504f93;
+.skill-category ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0;
 }
 
-.response-message {
+.skill-category li {
+  margin-bottom: 0.3rem;
+}
+
+/* Timeline Items */
+.timeline-item {
+  margin-bottom: 2rem;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline-item:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: var(--primary);
+}
+
+.timeline-item:after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+
+.timeline-item h4 {
+  margin: 0 0 0.5rem;
+  color: var(--dark);
+}
+
+.timeline-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.timeline-description {
+  margin: 0.5rem 0 1rem;
+  padding-left: 1rem;
+}
+
+.timeline-description li {
+  margin-bottom: 0.3rem;
+}
+
+/* Skill Tags */
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tags span {
+  background-color: var(--light);
+  color: var(--dark);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+/* Footer Styles */
+.resume-footer {
+  background-color: var(--dark);
+  color: var(--white);
+  padding: 1.5rem;
   text-align: center;
-  margin-top: 10px;
-  color: green;
-  font-weight: bold;
 }
 
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.social-links a {
+  color: var(--white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: var(--primary);
+}
 
 /* Responsive Design */
-
-/* Mobile Responsive Fixes */
-@media screen and (max-width: 768px) {
-  .app {
-    padding: 100px 20px;
-    /* Reduce padding */
-  }
-
-  .hero {
-    padding: 50px 15px;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .hero h2 {
-    font-size: 1.5rem;
-  }
-
-  .hero p {
-    font-size: 1rem;
-  }
-
-  .hero-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-
-  .section-services .service-cards {
+@media (max-width: 768px) {
+  .resume-main {
     flex-direction: column;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    gap: 0.5rem;
     align-items: center;
   }
-
-  .section-services .single-service {
-    width: 90%;
-    padding: 20px;
-  }
-
-  .gallery {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    /* Adjust grid for mobile */
-  }
-
-  .gallery-item img {
-    height: 120px;
-    /* Reduce image size */
-  }
-
-  .contact {
-    padding: 50px 15px;
-  }
-}
-
-/* Tablet View: 2 in a row */
-@media (max-width: 992px) {
-  .section-services .single-service {
-    flex: 1 1 calc(50% - 30px); /* 2 items per row */
-    max-width: calc(50% - 30px);
-  }
-}
-
-/* Mobile View: 1 in a row */
-@media (max-width: 576px) {
-  .section-services .single-service {
-    flex: 1 1 100%; /* 1 item per row */
-    max-width: 100%;
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
   }
 }

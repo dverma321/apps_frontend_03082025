@@ -1,51 +1,78 @@
+/* Container for the login page */
 .loginMainContainer {
-  background-image: url('/images/white_green_rose.jpg');  
-  background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-
-}
-
-.loginImage {
- 
-  background-size: 100%;  /* Ensures the image fits without cropping */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
   height: 100vh;
-  min-height: 100vh;
+  width: 100%;
   overflow: hidden;
+  padding: 20px;
 }
 
+/* Background Video Styling */
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
 
+/* Login box styles */
+.loginImage {
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.3); /* translucent white background */
+  border: 4px solid black;
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding-top: 150px;
+  /* backdrop-filter: blur(10px); */
+  /* padding-top: 20px; */
+}
 
-/* ✅ Fix for Mid-Sized Screens (769px - 1024px) */
-@media screen and (max-width: 1024px) and (min-width: 769px) {
-  .loginMainContainer {
-    background-size: cover; /* Ensures full coverage */
-    background-position: center;
-    background-color: black; /* Fill gaps if any */
-    aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
-    width: 100%; /* Ensure it takes up full width */
-    height: auto; /* Let the height adjust based on the aspect ratio */
+/* Input field styling */
+.loginImage input {
+  font-size: 1rem;
+  padding: 0.7rem 2rem;
+  border-radius: 0.5rem;
+  background-color: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .loginImage {
+    padding: 1.5rem;
+    max-width: 90%;
+    padding-top: 100px;
+  }
+
+  .loginImage input {
+    font-size: 0.95rem;
+    padding: 0.6rem 2.5rem;
+  }
+
+  .loginImage button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
   }
 }
 
-/* ✅ Mobile Screens (432px - 768px) */
-@media screen and (max-width: 768px) {
-  .loginMainContainer {
-    background-size: cover;
-    background-attachment: scroll; /* Prevents fixed issues on mobile */
+@media (max-width: 480px) {
+  .loginImage {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.3); /* translucent white background */
+    padding-top: 100px;
+  
+    
   }
-}
 
-/* ✅ Extra Small Screens (below 432px) */
-@media screen and (max-width: 432px) {
-  .loginMainContainer {
-    background-size: cover;
-    background-attachment: scroll;
+  .loginImage input {
+    font-size: 0.9rem;
+    padding: 0.5rem 2.5rem;
   }
 }

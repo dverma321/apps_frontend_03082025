@@ -1,0 +1,394 @@
+
+.desktop-table {
+  display: block;
+  background-image: url('/english/back.jpg');
+  object-fit: cover;
+}
+
+.mobile-table {
+  display: none;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 100%;
+}
+
+.group-container {
+  display: flex;
+  flex-direction: column; /* stacked groups */
+  gap: 50px;
+  padding-top: 100px;
+}
+
+.group-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+.left-table{
+  width: 70%;
+}
+
+/* Right-hand section for heading + image */
+.right-info {
+  width: 25%;
+  flex-direction: column;
+  align-items: center;
+  border-left: 2px solid #007bff;
+  padding-left: 20px;
+}
+
+/* Heading Styling */
+.right-info h3 {
+  text-align: center;
+  border: 2px solid #1e40af;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f0f8ff;
+}
+
+/* Responsive Fix */
+@media (max-width: 992px) {
+  .group-container {
+    flex-direction: column;
+  }
+
+  .right-info {
+    border-left: none;
+    border-top: 2px solid #007bff;
+    padding-left: 0;
+    padding-top: 20px;
+  }
+}
+
+
+/* Table Styling */
+.table th,
+.table td {
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 200px; /* Adjust this to suit the content size */
+}
+
+.table th {
+  text-align: left;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Form Control Styling */
+.form-control {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button Styling */
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.suggestButton,
+.cancelButton,
+.EditButton {
+  padding: 0.5rem 1rem;
+  margin: 5px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.suggestButton {
+  background-color: lightseagreen;
+  color: white;
+}
+
+.suggestButton:hover {
+  background-color: #2e8b57;
+}
+
+.cancelButton {
+  background-color: lightcoral;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #c74b3a;
+}
+
+.EditButton {
+  background-color: darkblue;
+  color: white;
+}
+
+.EditButton:hover {
+  background-color: #1a3d5c;
+}
+
+/* Modal Styling */
+.modal.fade.show.d-block {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  border-radius: 0.5rem;
+  padding: 20px;
+  max-width: 90vw;
+}
+
+.modal-body input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+/* Font Family for Kunti Dev 010 */
+@font-face {
+  font-family: 'Kunti Dev 010';
+  src: url('/fonts/KrutiDev010.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply Kunti Dev Font */
+.kunti-dev {
+  font-family: 'Kunti Dev 010', sans-serif;
+  font-size: 18px;
+}
+
+textarea.kunti-dev,
+input.kunti-dev {
+  font-family: 'Kunti Dev 010', sans-serif;
+  font-size: 18px;
+}
+
+/* Base pagination container */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  overflow-x: auto; /* enables horizontal scroll on small screens */
+  white-space: nowrap; /* keeps buttons in one line */
+  padding: 0 1rem;
+}
+
+/* Styles for all pagination buttons */
+.pagination-container button {
+  min-width: 40px;
+  padding: 0.4rem 0.75rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0; /* prevents shrinking in narrow viewports */
+}
+
+/* Active & inactive states */
+.pagination-container .btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination-container .btn-outline-primary {
+  background-color: white;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+/* Hover effect */
+.pagination-container button:hover {
+  opacity: 0.9;
+}
+
+/* Disabled button */
+.pagination-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Ellipsis */
+.pagination-ellipsis {
+  display: inline-block;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+  flex-shrink: 0;
+}
+
+.next, .previous{
+  background-color: lightgreen;
+  color: whitesmoke;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.next:hover, .previous:hover{
+  background-color: #c74b3a;
+}
+
+
+/* Responsive Layout */
+@media (max-width: 992px) {
+  .table {
+    font-size: 1rem;
+  }
+
+  .form-control {
+    font-size: 1rem;
+  }
+
+  .modal-content {
+    max-width: 95vw;
+  }
+
+  .suggButton,
+  .cancelButton,
+  .EditButton {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-table {
+    display: none;
+  }
+
+  .mobile-table {
+    display: block;
+  }
+
+  .mobile-table .card p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;        
+  }
+
+  .table th,
+  .table td {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+
+  .suggButton,
+  .cancelButton,
+  .EditButton {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .modal-body input {
+    font-size: 0.9rem;
+  }
+
+  .table-containers {
+    padding: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* For Mobile Screens */
+  .table {
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .form-control {
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    max-width: 100vw;
+  }
+
+  .suggButton,
+  .cancelButton,
+  .EditButton {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  /* Adjust table cell content for better fit */
+  .table th,
+  .table td {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .table-containers h2 {
+    font-size: 1.5rem;
+  }
+
+  .table-containers h5 {
+    font-size: 1rem;
+  }
+
+  .table th {
+    text-align: left;
+  }
+
+  .pagination-container {    
+    gap: 0.2rem;
+    overflow-x: auto; /* enables horizontal scroll on small screens */
+    white-space: nowrap; /* keeps buttons in one line */
+    padding: 0 0.5rem;
+  }
+  
+  /* Styles for all pagination buttons */
+  .pagination-container button {
+    min-width: 40px;
+    padding: 0.4rem 0.3rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+  } 
+  
+  .pagination-ellipsis {
+    display: inline-block;
+    padding: 0.2rem;
+    font-size: 1rem;
+    color: #6c757d;
+    flex-shrink: 0;
+  }
+  
+  .pagination-container::-webkit-scrollbar {
+    display: none;
+  }
+  .pagination-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  
+}

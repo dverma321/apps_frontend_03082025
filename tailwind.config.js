@@ -3,7 +3,16 @@ const withMT = require("@material-tailwind/react/utils/withMT");
 module.exports = withMT({
   content: [
     './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',  // Include your React component files
+    './src/**/*.{js,ts,jsx,tsx}', 
+    "./node_modules/slick-carousel/slick/slick.css",
+  ],
+  safelist: [
+    "slick-slider",
+    "slick-track",
+    "slick-slide",
+    "slick-arrow",
+    "slick-prev",
+    "slick-next",
   ],
   theme: {
     extend: {

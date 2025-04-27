@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faHome, faFileAlt, faCloudUploadAlt, faSignInAlt, faUserPlus, faDoorOpen, faBars, faCalendarAlt, faComments, faUsers, faHistory, faCartPlus, faExclamationTriangle, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faFileAlt, faCloudUploadAlt, faSignInAlt, faUserPlus, faDoorOpen, faBars, faCalendarAlt, faComments, faUsers, faHistory, faCartPlus, faExclamationTriangle, faUser, faGem  } from '@fortawesome/free-solid-svg-icons';
 import { faAndroid, faWindows } from '@fortawesome/free-brands-svg-icons';
 
-import useFetchUser from '../pages/API/FetchUserInfo.jsx'; // Import the custom hook
-
-
+import useFetchUser from '../pages/API/FetchUserInfo.jsx'; 
 import './Navbar.css';
 
 const Navbar = () => {
@@ -15,30 +13,28 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [gems, setGems] = useState(0); // State for gem count
 
   useEffect(() => {
-    console.log("Updated state:", state);
 
     let storedUserInfo = localStorage.getItem('userInfo');
-
     if (state?.isAuthenticated) {
       if (state?.userInfo) {
         setIsAuthenticated(true);
         setIsAdmin(state.userInfo.isAdmin || false);
+        setGems(state.userInfo.gems || 0);
       } else if (storedUserInfo) {
         // ✅ If `userInfo` is missing in state but exists in `localStorage`, use it
         let userInfo = JSON.parse(storedUserInfo);
         dispatch({ type: 'USER', payload: { isAuthenticated: true, userInfo } });
+        setGems(userInfo.gems || 0); // ✅ Set gems from localStorage
       }
     } else {
       setIsAuthenticated(false);
       setIsAdmin(false);
+      setGems(0);
     }
   }, [state?.isAuthenticated, state?.userInfo]);
-
-
-
-
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -50,7 +46,15 @@ const Navbar = () => {
           {loading ? (
             'Loading...'
           ) : isAuthenticated && state?.userInfo?.name ? (
-            <Link to="/">Welcome {state.userInfo.name}!</Link>
+            <div>
+              <Link to="/">Welcome {state.userInfo.name}!</Link>
+              <div className="flex items-center mt-1">
+                <FontAwesomeIcon icon={faGem} className="mr-1 text-blue-500" />
+                <span className='text-red-500'>{gems || 0} </span>
+                <span className='text-green-500 ml-1'> Coins</span>
+              </div>
+            </div>
+
           ) : (
             <Link to="/">Anonymous user</Link>
           )}
@@ -129,6 +133,7 @@ const Navbar = () => {
       </div>
     </nav>
   );
+
 };
 
 export default Navbar;

@@ -1,8 +1,8 @@
 // vite.config.js
-import { defineConfig } from "file:///C:/Divyanshu_Folder/myProjects/MERN/personal/client/node_modules/vite/dist/node/index.js";
-import react from "file:///C:/Divyanshu_Folder/myProjects/MERN/personal/client/node_modules/@vitejs/plugin-react/dist/index.mjs";
-import tailwindcss from "file:///C:/Divyanshu_Folder/myProjects/MERN/personal/client/node_modules/tailwindcss/lib/index.js";
-import autoprefixer from "file:///C:/Divyanshu_Folder/myProjects/MERN/personal/client/node_modules/autoprefixer/lib/autoprefixer.js";
+import { defineConfig } from "file:///C:/Divyanshu_Folder/myProjects/MERN/apps/client/node_modules/vite/dist/node/index.js";
+import react from "file:///C:/Divyanshu_Folder/myProjects/MERN/apps/client/node_modules/@vitejs/plugin-react/dist/index.mjs";
+import tailwindcss from "file:///C:/Divyanshu_Folder/myProjects/MERN/apps/client/node_modules/tailwindcss/lib/index.js";
+import autoprefixer from "file:///C:/Divyanshu_Folder/myProjects/MERN/apps/client/node_modules/autoprefixer/lib/autoprefixer.js";
 var vite_config_default = defineConfig({
   plugins: [react()],
   css: {

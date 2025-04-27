@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Slider from "react-slick"; // Fixed typo in import
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import './ComputerApps.css';
 
 const ComputerProducts = () => {
@@ -9,7 +12,7 @@ const ComputerProducts = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    
+
     const navigate = useNavigate();
 
     const apiUrl = import.meta.env.DEV
@@ -42,7 +45,7 @@ const ComputerProducts = () => {
 
     const handleSearch = async (e) => {
         setSearch(e.target.value);
-    
+
         try {
             const response = await fetch(`${apiUrl}/computer/all-products?search=${e.target.value}`, {
                 method: "GET",
@@ -51,7 +54,7 @@ const ComputerProducts = () => {
                     "Authorization": `Bearer ${token}`
                 }
             });
-    
+
             const data = await response.json();
             if (data.success) {
                 setProducts(data.products);
@@ -60,8 +63,6 @@ const ComputerProducts = () => {
             console.error("Error searching products:", error);
         }
     };
-    
-
 
     const filteredProducts = products.filter(product =>
         product.name.toLowerCase().includes(search.toLowerCase())
@@ -76,7 +77,7 @@ const ComputerProducts = () => {
         try {
             const response = await axios.post(
                 `${apiUrl}/computer/download`,
-                { appName, version, targetUrl: downloadLink, deviceType:"Windows" },
+                { appName, version, targetUrl: downloadLink, deviceType: "Windows" },
                 {
                     headers: { Authorization: `Bearer ${token}` },
                     withCredentials: true,
@@ -95,8 +96,72 @@ const ComputerProducts = () => {
         }
     };
 
+
+    // Carousel settings
+    const settings = {
+        dots: true, // Show dots for navigation
+        infinite: true, // Infinite looping
+        speed: 500, // Transition speed in milliseconds
+        slidesToShow: 1, // Number of slides to show at a time
+        slidesToScroll: 1, // Number of slides to scroll at a time
+        autoplay: true, // Enable auto-sliding
+        autoplaySpeed: 3000, // Auto-slide interval in milliseconds (3 seconds)
+    };
+
+
+    // image loading
+
+    const [imageLoading, setImageLoading] = useState({}); // Track image loading
+
+    const handleImageLoad = (index) => {
+        setImageLoading((prev) => ({ ...prev, [index]: false }));
+    };
+
+    // handle report
+
+    const [reportStatus, setReportStatus] = useState({});
+
+    const handleReport = (appName, appVersion, downloadLink) => {
+        fetch(`${apiUrl}/computer/report-issue`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ appName, appVersion, downloadLink, issue: "Expired download link" }),
+            credentials: "include",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to report issue");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                window.alert("Report successfully...")
+            })
+            .catch((error) => {
+                window.alert("Report Failed... ", error);
+            });
+    };
+
+    // page on the top 
+
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // document.body.scrollTop = 0;
+        // document.documentElement.scrollTop = 0;
+      };     
+      
+      useEffect(() => {
+        const container = document.getElementById("windowscontainer");
+        container?.scrollTo({ top: 0, behavior: "smooth" });
+      }, [page]);
+
+
     return (
-        <div className="container mx-auto p-4">
+        <div className="mx-auto p-4" id="windowscontainer">
             {isLoggedIn ? (
                 <input
                     type="text"
@@ -118,11 +183,39 @@ const ComputerProducts = () => {
                             key={index}
                             className="bg-white shadow-md rounded-lg p-4 flex flex-col h-full"
                         >
-                            <img
-                                src={app.image}
-                                alt={app.name}
-                                className="w-full h-40 object-cover rounded-md mb-3"
-                            />
+                            {imageLoading[index] ? (
+                                <div className="skeleton"></div> // Show skeleton while loading
+                            ) : (
+                                <img
+                                    src={app.image}
+                                    alt={app.name}
+                                    className="w-full h-40 object-cover rounded-md mb-3"
+                                    onLoad={() => handleImageLoad(index)}
+
+                                />
+                            )}
+                            <div className="mt-3 mb-5">
+                                <h3 className="text-xl pt-1 mb-1 font-bold text-gray-800 border-b-4 border-blue-500 pb-3 inline-block">
+                                    Screenshots:
+                                </h3>
+                                <Slider {...settings}>
+                                    {app.image1 ? (
+                                        <div>
+                                            <img src={app.image1} alt={`${app.name} screenshot 1`} className="w-full h-40 object-cover rounded-md" />
+                                        </div>
+                                    ) : (
+                                        <div className="text-center text-gray-500">No screenshot available</div>
+                                    )}
+                                    {app.image2 ? (
+                                        <div>
+                                            <img src={app.image2} alt={`${app.name} screenshot 2`} className="w-full h-40 object-cover rounded-md" />
+                                        </div>
+                                    ) : (
+                                        <div className="text-center text-gray-500">No screenshot available</div>
+                                    )}
+                                </Slider>
+                            </div>
+
                             <div className="flex-1">
                                 <h2 className="text-lg font-semibold">{app.name}</h2>
                                 <p className="text-sm text-gray-600">{app.category}</p>
@@ -134,13 +227,52 @@ const ComputerProducts = () => {
                                     {app.details || "No details available."}
                                 </p>
                             </div>
+
                             {isLoggedIn ? (
-                                <button
-                                    onClick={() => handleDownload(app.name, app.version, app.downloadLink)}
-                                    className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                >
-                                    Download
-                                </button>
+                                <>
+                                    <button
+                                        onClick={() => handleDownload(app.name, app.version, app.downloadLink)}
+                                        className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        Download
+                                    </button>
+
+                                    <button
+                                        onClick={() => {
+                                            const confirmReport = window.confirm(
+                                                `Are you sure you want to report ${app.name} (Version: ${app.Version}) as an expired download link?`
+                                            );
+                                            if (confirmReport) {
+                                                handleReport(app.name, app.Version, app.downloadLink);
+                                            }
+                                        }}
+                                        className="mt-2 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        <p>Broken Link</p>
+                                    </button>
+
+                                    {app.previousVersions && app.previousVersions.length > 0 ? (
+                                        <div className="mt-4 bg-gray-100 p-3 rounded-lg border border-gray-300">
+                                            <h3 className="font-semibold text-sm mb-2 text-gray-700">Previous Versions:</h3>
+                                            <ul className="space-y-2 pl-4 list-disc text-sm">
+                                                {app.previousVersions.map((item, index) => (
+                                                    <li key={index} className="block">
+                                                        <a
+                                                            href={`https://${item.link}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className=" text-blue-600 hover:underline hover:text-red-800 cursor-pointer"
+                                                        >
+                                                            Version {item.version}
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    ) : (
+                                        <div className="mt-4 h-[130px]"></div> // Keeps consistent height
+                                    )}
+                                </>
                             ) : (
                                 <p className="text-red-500 text-sm mt-3 text-center">
                                     Login to Download
@@ -157,7 +289,8 @@ const ComputerProducts = () => {
                         <>
                             <button
                                 disabled={page === 1}
-                                onClick={() => setPage(page - 1)}
+                                // onClick={() => setPage(page - 1)}
+                                onClick={() => handlePageChange(page - 1)}
                                 className={`px-4 py-2 rounded ${page === 1
                                     ? "bg-gray-300 cursor-not-allowed"
                                     : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -170,7 +303,8 @@ const ComputerProducts = () => {
                             </span>
                             <button
                                 disabled={page === totalPages}
-                                onClick={() => setPage(page + 1)}
+                                // onClick={() => setPage(page + 1)}
+                                onClick={() => handlePageChange(page + 1)}
                                 className={`px-4 py-2 rounded ${page === totalPages
                                     ? "bg-gray-300 cursor-not-allowed"
                                     : "bg-blue-500 hover:bg-blue-600 text-white"
