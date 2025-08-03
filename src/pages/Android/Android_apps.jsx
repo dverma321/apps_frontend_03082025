@@ -77,35 +77,53 @@ const AndroidApps = () => {
     }
   }, [searchTerm, apps, allApps]);
 
-  
+
   useEffect(() => {
     console.log("currentPage updated: ", currentPage);
     const container = document.getElementById("androidcontainer");
     container?.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-    // page on the top 
+  // page on the top 
 
-    const handlePageChange = (newPage) => {
-      if (newPage > 0 && newPage <= totalPages) {
-        setCurrentPage(newPage);
-        console.log("page : ", newPage);
-      }
-    }; 
- 
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      console.log("page : ", newPage);
+    }
+  };
+
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleDownload = async (appName, version, downloadLink) => {
+  const handleDownload = async (appName, version) => {
     if (!isLoggedIn) {
       alert("Please log in to download apps.");
       return;
     }
 
     try {
-      const response = await axios.post(
+      // Step 1: Get the actual download link
+      const linkResponse = await axios.post(
+        `${apiUrl}/android/get-download-link`,
+        { appName, version },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+
+      const downloadLink = linkResponse.data.downloadLink;
+
+      if (!downloadLink) {
+        alert("Download link not available.");
+        return;
+      }
+
+      // Step 2: Record the download in DB
+      const recordResponse = await axios.post(
         `${apiUrl}/android/download`,
         { appName, version, targetUrl: downloadLink, deviceType: "Android" },
         {
@@ -114,33 +132,65 @@ const AndroidApps = () => {
         }
       );
 
-      if (response.status === 201) {
-        window.location.href = downloadLink;
+      if (recordResponse.status === 201) {
+        window.location.href = downloadLink; // start download
       } else {
         alert("Failed to record download. Try again.");
       }
     } catch (error) {
-      console.error("Error recording download:", error);
-      alert("Failed to record download. Try again.");
+      console.error("Error handling download:", error);
+      alert("Failed to get download link or record download.");
     }
   };
 
-  const handleReport = (appName, appVersion, downloadLink) => {
+  const handleReport = async (appName, appVersion) => {
     alert(`The download link for ${appName} (Version: ${appVersion}) is reported as expired.`);
 
-    fetch(`${apiUrl}/android/report-issue`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ appName, appVersion, downloadLink, issue: "Expired download link" }),
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("Report submitted:", data))
-      .catch((error) => console.error("Error reporting issue:", error));
+    try {
+      // Step 1: Get the download link
+      const linkResponse = await axios.post(
+        `${apiUrl}/android/get-download-link`,
+        { appName, version: appVersion },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      const downloadLink = linkResponse.data.downloadLink;
+
+      if (!downloadLink) {
+        alert("Download link not available to report.");
+        return;
+      }
+
+      // Step 2: Report the issue
+      const reportResponse = await fetch(`${apiUrl}/android/report-issue`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          appName,
+          appVersion,
+          downloadLink,
+          issue: "Expired download link",
+        }),
+        credentials: "include",
+      });
+
+      const data = await reportResponse.json();
+      console.log("Report submitted:", data);
+    } catch (error) {
+      console.error("Error reporting issue:", error);
+      alert("Could not report the issue. Try again later.");
+    }
   };
+
 
   // Carousel settings
   const settings = {
@@ -163,7 +213,7 @@ const AndroidApps = () => {
 
 
 
-  
+
   // for updating gem coins
 
   const updateGemsIfNeeded = async () => {
@@ -279,11 +329,12 @@ const AndroidApps = () => {
               {isLoggedIn ? (
                 <>
                   <button
-                    onClick={() => handleDownload(app.name, app.version, app.downloadLink)}
+                    onClick={() => handleDownload(app.name, app.version)}
                     className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Download
                   </button>
+
 
                   <button
                     onClick={() => {
@@ -291,7 +342,7 @@ const AndroidApps = () => {
                         `Are you sure you want to report ${app.name} (Version: ${app.version}) as an expired download link?`
                       );
                       if (confirmReport) {
-                        handleReport(app.name, app.version, app.downloadLink);
+                        handleReport(app.name, app.version);
                       }
                     }}
                     className="mt-2 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -300,7 +351,7 @@ const AndroidApps = () => {
                     <p>Broken Link</p>
                   </button>
 
-                  <LikeDislikeButton appId={app.name} />
+                  {/* <LikeDislikeButton appId={app.name} /> */}
 
                 </>
               ) : (

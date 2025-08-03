@@ -1,4 +1,4 @@
-/* Base Styles */
+/* Registration Container */
 .registration-container {
   position: relative;
   width: 100%;
@@ -7,9 +7,10 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.5);
+  padding-top: 10px;
 }
 
+/* Background Video */
 .background-video {
   position: absolute;
   top: 0;
@@ -21,28 +22,26 @@
   z-index: 0;
 }
 
+/* Registration Form */
 .registration-form {
   position: relative;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   padding: 2.5rem;
   border-radius: 12px;
   width: 100%;
-  max-width: 450px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-}
-
-.registration-form.profile-completion {
   max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
 }
 
+/* Form Titles */
 .form-title {
   color: #fff;
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
   text-align: center;
   font-weight: 600;
 }
@@ -50,13 +49,18 @@
 .form-subtitle {
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-size: 0.95rem;
 }
 
-/* Form Elements */
+.form-subtitle strong {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Form Groups */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.8rem;
 }
 
 .form-label {
@@ -70,8 +74,10 @@
 .form-icon {
   margin-right: 8px;
   color: #ff4757;
+  vertical-align: middle;
 }
 
+/* Form Inputs */
 .form-input {
   width: 100%;
   padding: 12px 15px;
@@ -87,6 +93,11 @@
   outline: none;
   border-color: #ff4757;
   box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Password Hints */
@@ -117,7 +128,27 @@
   font-style: italic;
 }
 
-/* Button Styles */
+/* Form Messages */
+.form-message {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.form-message.error {
+  background-color: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+  border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.form-message.success {
+  background-color: rgba(46, 213, 115, 0.2);
+  color: #2ed573;
+  border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+/* Submit Button */
 .submit-button {
   width: 100%;
   padding: 14px;
@@ -148,6 +179,7 @@
   cursor: not-allowed;
 }
 
+/* Button Loader */
 .button-loader {
   width: 20px;
   height: 20px;
@@ -161,98 +193,11 @@
   to { transform: rotate(360deg); }
 }
 
-/* Form Footer */
-.form-footer {
-  margin-top: 1.5rem;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-}
-
-.footer-link {
-  color: #ff4757;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.footer-link:hover {
-  color: #ff6b81;
-}
-
-/* Messages */
-.form-message {
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.form-message.error {
-  background-color: rgba(255, 71, 87, 0.2);
-  color: #ff4757;
-  border: 1px solid rgba(255, 71, 87, 0.3);
-}
-
-.form-message.success {
-  background-color: rgba(46, 213, 115, 0.2);
-  color: #2ed573;
-  border: 1px solid rgba(46, 213, 115, 0.3);
-}
-
-/* Verification Sent Styles */
-.verification-sent-container {
-  text-align: center;
-  color: white;
-}
-
-.verification-icon {
-  font-size: 3rem;
-  color: #2ed573;
-  margin-bottom: 1.5rem;
-}
-
-.verification-sent-container h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-.verification-text {
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-.verification-note {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-}
-
-.resend-link {
-  background: none;
-  border: none;
-  color: #ff4757;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 0;
-  text-decoration: underline;
-}
-
-.resend-link:hover {
-  color: #ff6b81;
-}
-
-.resend-link:disabled {
-  color: #777;
-  cursor: not-allowed;
-  text-decoration: none;
-}
-
 /* Responsive Adjustments */
 @media (max-width: 576px) {
   .registration-form {
     padding: 1.5rem;
-    margin: 0 1rem;
+    margin: 1rem;
   }
   
   .form-title {

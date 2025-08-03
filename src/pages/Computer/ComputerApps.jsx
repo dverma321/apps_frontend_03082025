@@ -68,13 +68,28 @@ const ComputerProducts = () => {
         product.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    const handleDownload = async (appName, version, downloadLink) => {
+    const handleDownload = async (appName, version) => {
         if (!isLoggedIn) {
             alert("Please log in to download apps.");
             return;
         }
 
         try {
+            // Step 1: Fetch the download link
+            const linkResponse = await axios.get(`${apiUrl}/computer/get-download-link`, {
+                params: { appName, version },
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true,
+            });
+
+            const downloadLink = linkResponse.data.downloadLink;
+
+            if (!downloadLink) {
+                alert("Download link not found.");
+                return;
+            }
+
+            // Step 2: Record the download
             const response = await axios.post(
                 `${apiUrl}/computer/download`,
                 { appName, version, targetUrl: downloadLink, deviceType: "Windows" },
@@ -85,16 +100,16 @@ const ComputerProducts = () => {
             );
 
             if (response.status === 201) {
-                // Only redirect if download recording was successful
                 window.location.href = downloadLink;
             } else {
                 alert("Failed to record download. Try again.");
             }
         } catch (error) {
-            console.error("Error recording download:", error);
-            alert("Failed to record download. Try again.");
+            console.error("Error during download process:", error);
+            alert("Something went wrong. Try again.");
         }
     };
+
 
 
     // Carousel settings
@@ -121,29 +136,54 @@ const ComputerProducts = () => {
 
     const [reportStatus, setReportStatus] = useState({});
 
-    const handleReport = (appName, appVersion, downloadLink) => {
-        fetch(`${apiUrl}/computer/report-issue`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ appName, appVersion, downloadLink, issue: "Expired download link" }),
-            credentials: "include",
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to report issue");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                window.alert("Report successfully...")
-            })
-            .catch((error) => {
-                window.alert("Report Failed... ", error);
+    const handleReport = async (appName, appVersion) => {
+        if (!isLoggedIn) {
+            alert("Please log in to report issues.");
+            return;
+        }
+
+        try {
+            // Step 1: Fetch the download link
+            const linkResponse = await axios.get(`${apiUrl}/computer/get-download-link`, {
+                params: { appName, version: appVersion },
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true,
             });
+
+            const downloadLink = linkResponse.data.downloadLink;
+
+            if (!downloadLink) {
+                alert("Download link not found.");
+                return;
+            }
+
+            // Step 2: Submit the report
+            const reportResponse = await axios.post(
+                `${apiUrl}/computer/report-issue`,
+                {
+                    appName,
+                    appVersion,
+                    downloadLink,
+                    issue: "Expired download link",
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                    withCredentials: true,
+                }
+            );
+
+            if (reportResponse.status === 200 || reportResponse.status === 201) {
+                alert("Report submitted successfully.");
+            } else {
+                alert("Failed to submit report. Please try again.");
+            }
+        } catch (error) {
+            console.error("Report failed:", error);
+            alert("Something went wrong. Please try again later.");
+        }
     };
+
+
 
     // page on the top 
 
@@ -152,12 +192,12 @@ const ComputerProducts = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         // document.body.scrollTop = 0;
         // document.documentElement.scrollTop = 0;
-      };     
-      
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         const container = document.getElementById("windowscontainer");
         container?.scrollTo({ top: 0, behavior: "smooth" });
-      }, [page]);
+    }, [page]);
 
 
     return (
@@ -231,7 +271,7 @@ const ComputerProducts = () => {
                             {isLoggedIn ? (
                                 <>
                                     <button
-                                        onClick={() => handleDownload(app.name, app.version, app.downloadLink)}
+                                        onClick={() => handleDownload(app.name, app.Version)}
                                         className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     >
                                         Download
@@ -243,7 +283,7 @@ const ComputerProducts = () => {
                                                 `Are you sure you want to report ${app.name} (Version: ${app.Version}) as an expired download link?`
                                             );
                                             if (confirmReport) {
-                                                handleReport(app.name, app.Version, app.downloadLink);
+                                                handleReport(app.name, app.Version); // Removed app.downloadLink
                                             }
                                         }}
                                         className="mt-2 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

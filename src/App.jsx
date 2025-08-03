@@ -25,6 +25,7 @@ import GemCoins from './pages/Gems/Gems.jsx';
 import HomePage from './pages/Home/HomePage.jsx';
 import TranslateTable from './pages/English/TranslateTable.jsx';
 import { Layout } from './pages/English/Layout.jsx';
+import { CompleteProfile } from './pages/CompleteProfile.jsx';
 
 export const userContext = createContext();
 
@@ -70,6 +71,7 @@ function App() {
           />
 
           <Route path="/registration" element={<Registration />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
           <Route path="/logout" element={<Logout />} />         

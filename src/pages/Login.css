@@ -1,78 +1,64 @@
-/* Container for the login page */
+/* Base Styles */
 .loginMainContainer {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  padding: 20px;
 }
 
-/* Background Video Styling */
-.background-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(var(--rotation)) scale(var(--scale));
+  }
+  25% {
+    transform: translateY(-10px) rotate(var(--rotation)) scale(var(--scale));
+  }
+  50% {
+    transform: translateY(0) rotate(var(--rotation)) scale(var(--scale));
+  }
+  75% {
+    transform: translateY(10px) rotate(var(--rotation)) scale(var(--scale));
+  }
 }
 
-/* Login box styles */
-.loginImage {
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.3); /* translucent white background */
-  border: 4px solid black;
-  padding: 2.5rem;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  padding-top: 150px;
-  /* backdrop-filter: blur(10px); */
-  /* padding-top: 20px; */
+/* Image Transition */
+.floating-image {
+  transition: all 1.5s ease-in-out;
 }
 
-/* Input field styling */
-.loginImage input {
-  font-size: 1rem;
-  padding: 0.7rem 2rem;
-  border-radius: 0.5rem;
-  background-color: transparent;
+/* Login Box */
+.login-box {
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 
-/* Responsive adjustments */
+/* Input Focus Effects */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .loginImage {
+  .login-box {
+    width: 90%;
     padding: 1.5rem;
-    max-width: 90%;
-    padding-top: 100px;
+    backdrop-filter: blur(4px);
   }
-
-  .loginImage input {
-    font-size: 0.95rem;
-    padding: 0.6rem 2.5rem;
-  }
-
-  .loginImage button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
+  
+  /* Reduce number of floating images on mobile */
+  .floating-image {
+    max-width: 120px;
+    max-height: 120px;
   }
 }
 
-@media (max-width: 480px) {
-  .loginImage {
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.3); /* translucent white background */
-    padding-top: 100px;
-  
-    
+/* Success Animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
   }
-
-  .loginImage input {
-    font-size: 0.9rem;
-    padding: 0.5rem 2.5rem;
+  50% {
+    transform: translateY(-20px);
   }
 }
